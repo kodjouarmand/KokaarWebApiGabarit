@@ -15,9 +15,9 @@ namespace KokaarWebApiGabarit.API.Controllers
     {
         private readonly ILoggerService _logger;
         private readonly IMapper _mapper;
-        private readonly UserManager<ApplicationUser> _userManager;
-        private readonly IAuthenticationManager _authManager;
-        public AuthenticationController(ILoggerService logger, IMapper mapper, UserManager<ApplicationUser> userManager, IAuthenticationManager authManager)
+        private readonly UserManager<UserAccount> _userManager;
+        private readonly IAuthenticationService _authManager;
+        public AuthenticationController(ILoggerService logger, IMapper mapper, UserManager<UserAccount> userManager, IAuthenticationService authManager)
         {
             _logger = logger;
             _mapper = mapper;
@@ -30,7 +30,7 @@ namespace KokaarWebApiGabarit.API.Controllers
         [ServiceFilter(typeof(ValidationFilterAttribute))]
         public async Task<IActionResult> RegisterUser([FromBody] UserForRegistrationDto userForRegistration)
         {
-            var user = _mapper.Map<ApplicationUser>(userForRegistration);
+            var user = _mapper.Map<UserAccount>(userForRegistration);
             var result = await _userManager.CreateAsync(user, userForRegistration.Password);
             if (!result.Succeeded)
             {

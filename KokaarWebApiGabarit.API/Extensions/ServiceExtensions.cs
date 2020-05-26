@@ -1,6 +1,5 @@
 ﻿using AspNetCoreRateLimit;
 using KokaarWebApiGabarit.API.CustomFormatter;
-using KokaarWebApiGabarit.Model;
 using KokaarWebApiGabarit.Model.Entities;
 using KokaarWebApiGabarit.Infrastructure;
 using Marvin.Cache.Headers;
@@ -18,6 +17,9 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using KokaarWebApiGabarit.Infrastructure.Contracts;
+using KokaarWebApiGabarit.Persistance.Data;
+using KokaarWepApi.Business.Contracts;
+using KokaarWepApi.Business;
 using KokaarWebApiGabarit.Persistance.Contracts;
 using KokaarWebApiGabarit.Persistance.Repositories;
 
@@ -41,12 +43,15 @@ namespace KokaarWebApiGabarit.API.Extensions
             services.AddScoped<ILoggerService, LoggerService>();
 
         public static void ConfigureSqlContext(this IServiceCollection services, IConfiguration configuration) =>
-            services.AddDbContext<RepositoryContext>(opts =>
+            services.AddDbContext<ApplicationDbContext>(opts =>
             opts.UseSqlServer(configuration.GetConnectionString("sqlConnection"), b =>
                 b.MigrationsAssembly("KokaarWebApiGabarit.API")));
 
-        public static void ConfigureRepositoryManager(this IServiceCollection services) =>
-            services.AddScoped<IRepositoryManager, RepositoryManager>();
+        public static void ConfigureBusinessServices(this IServiceCollection services)
+        {
+            services.AddScoped<IUnitOfWork, UnitOfWork>();
+            services.AddScoped<ICompanyService, CompanyService>();
+        }
 
         public static IMvcBuilder AddCustomCSVFormatter(this IMvcBuilder builder) =>
             builder.AddMvcOptions(config => config.OutputFormatters.Add(new CsvOutputFormatter()));
@@ -100,7 +105,7 @@ namespace KokaarWebApiGabarit.API.Extensions
 
         public static void ConfigureIdentity(this IServiceCollection services)
         {
-            var builder = services.AddIdentityCore<ApplicationUser>(o =>
+            var builder = services.AddIdentityCore<UserAccount>(o =>
             {
                 o.Password.RequireDigit = true;
                 o.Password.RequireLowercase = false;
@@ -111,7 +116,7 @@ namespace KokaarWebApiGabarit.API.Extensions
             });
 
             builder = new IdentityBuilder(builder.UserType, typeof(IdentityRole), builder.Services);
-            builder.AddEntityFrameworkStores<RepositoryContext>().AddDefaultTokenProviders();
+            builder.AddEntityFrameworkStores<ApplicationDbContext>().AddDefaultTokenProviders();
         }
 
         public static void ConfigureJWT(this IServiceCollection services, IConfiguration configuration)

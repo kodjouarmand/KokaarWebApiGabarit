@@ -4,10 +4,11 @@ using System.Text;
 
 namespace KokaarWebApiGabarit.Model.DataTransferObjects
 {
-    public class CompanyDto
+    public class CompanyDto : BaseDto
     {
-        public int Id { get; set; }
         public string Name { get; set; }
+        public string Address { get; set; }
+        public string Country { get; set; }
         public string FullAddress { get; set; }
     }
 }

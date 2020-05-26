@@ -3,7 +3,6 @@ using AspNetCoreRateLimit;
 using AutoMapper;
 using KokaarWebApiGabarit.API.ActionFilters;
 using KokaarWebApiGabarit.API.Extensions;
-using KokaarWebApiGabarit.Model.DataTransferObjects;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
@@ -11,9 +10,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using NLog;
-using KokaarWebApiGabarit.Persistance.DataShaping;
 using KokaarWebApiGabarit.Infrastructure.Contracts;
-using KokaarWebApiGabarit.Persistance.Contracts;
 
 namespace KokaarWebApiGabarit.API
 {
@@ -34,12 +31,9 @@ namespace KokaarWebApiGabarit.API
             services.ConfigureIISIntegration();
             services.ConfigureLoggerService();
             services.ConfigureSqlContext(Configuration);
-            services.ConfigureRepositoryManager();
+            services.ConfigureBusinessServices();
             services.AddAutoMapper(typeof(Startup));
             services.AddScoped<ValidationFilterAttribute>();
-            services.AddScoped<ValidateCompanyExistsAttribute>();
-            services.AddScoped<ValidateEmployeeForCompanyExistsAttribute>();
-            services.AddScoped<IDataShaper<EmployeeDto>, DataShaper<EmployeeDto>>();
             services.ConfigureVersioning();
             services.ConfigureResponseCaching();
             services.ConfigureHttpCacheHeaders();
@@ -48,7 +42,7 @@ namespace KokaarWebApiGabarit.API
             services.AddAuthentication(); 
             services.ConfigureIdentity();
             services.ConfigureJWT(Configuration);
-            services.AddScoped<IAuthenticationManager, AuthenticationManager>();
+            services.AddScoped<IAuthenticationService, AuthenticationService>();
             services.ConfigureSwagger();
 
             services.AddControllers(config =>

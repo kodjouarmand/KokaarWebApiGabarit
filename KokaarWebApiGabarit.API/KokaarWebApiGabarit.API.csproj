@@ -21,8 +21,8 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\KokaarWebApiGabarit.Business\KokaarWebApiGabarit.Business.csproj" />
     <ProjectReference Include="..\KokaarWebApiGabarit.Infrastructure\KokaarWebApiGabarit.Infrastructure.csproj" />
-    <ProjectReference Include="..\KokaarWebApiGabarit.Persistance\KokaarWebApiGabarit.Persistance.csproj" />
   </ItemGroup>
 
 

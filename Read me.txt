@@ -1,0 +1,1 @@
+Sauvegarde effectué avant l'introduction de classe de base pour la prise en compte des champ d'audit
