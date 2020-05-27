@@ -10,7 +10,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Catsa.Model\Catsa.Model.csproj" />
+    <ProjectReference Include="..\Catsa.Domain\Catsa.Domain.csproj" />
   </ItemGroup>
 
 </Project>

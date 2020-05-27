@@ -1,4 +1,4 @@
-﻿using Catsa.Model.DataTransferObjects;
+﻿using Catsa.Domain.Assemblers;
 using System.Threading.Tasks;
 
 namespace Catsa.Infrastructure.Contracts

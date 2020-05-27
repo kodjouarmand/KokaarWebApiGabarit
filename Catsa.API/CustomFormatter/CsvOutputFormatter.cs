@@ -1,4 +1,4 @@
-﻿using Catsa.Model.DataTransferObjects;
+﻿using Catsa.Domain.Assemblers;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc.Formatters;
 using Microsoft.Net.Http.Headers;

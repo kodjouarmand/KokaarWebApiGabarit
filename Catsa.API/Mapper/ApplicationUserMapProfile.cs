@@ -1,10 +1,10 @@
 ﻿using AutoMapper;
-using Catsa.Model.Entities;
+using Catsa.Domain.Entities;
 using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace Catsa.Model.DataTransferObjects.Mapper
+namespace Catsa.Domain.Assemblers.Mapper
 {
     public class ApplicationUserMapProfile : Profile
     {

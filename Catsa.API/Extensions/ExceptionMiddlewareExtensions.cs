@@ -1,5 +1,5 @@
 ﻿using Catsa.Infrastructure.Contracts;
-using Catsa.Model.ErrorModel;
+using Catsa.Domain.ErrorModel;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.AspNetCore.Http;

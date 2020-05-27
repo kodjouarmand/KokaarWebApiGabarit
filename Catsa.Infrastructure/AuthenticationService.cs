@@ -1,5 +1,5 @@
-﻿using Catsa.Model.DataTransferObjects;
-using Catsa.Model.Entities;
+﻿using Catsa.Domain.Assemblers;
+using Catsa.Domain.Entities;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;

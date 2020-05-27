@@ -1,6 +1,6 @@
 ﻿using AspNetCoreRateLimit;
 using Catsa.API.CustomFormatter;
-using Catsa.Model.Entities;
+using Catsa.Domain.Entities;
 using Catsa.Infrastructure;
 using Marvin.Cache.Headers;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -17,11 +17,11 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using Catsa.Infrastructure.Contracts;
-using Catsa.Persistance.Data;
-using Catsa.Business.Contracts;
-using Catsa.Business;
-using Catsa.Persistance.Contracts;
-using Catsa.Persistance.Repositories;
+using Catsa.DataAccess.Contexts;
+using Catsa.BusinessLogic.Contracts;
+using Catsa.BusinessLogic;
+using Catsa.DataAccess.Contracts;
+using Catsa.DataAccess.Repositories;
 
 namespace Catsa.API.Extensions
 {
@@ -43,7 +43,7 @@ namespace Catsa.API.Extensions
             services.AddScoped<ILoggerService, LoggerService>();
 
         public static void ConfigureSqlContext(this IServiceCollection services, IConfiguration configuration) =>
-            services.AddDbContext<ApplicationDbContext>(opts =>
+            services.AddDbContext<CatsaDbContext>(opts =>
             opts.UseSqlServer(configuration.GetConnectionString("sqlConnection"), b =>
                 b.MigrationsAssembly("Catsa.API")));
 
@@ -116,7 +116,7 @@ namespace Catsa.API.Extensions
             });
 
             builder = new IdentityBuilder(builder.UserType, typeof(IdentityRole), builder.Services);
-            builder.AddEntityFrameworkStores<ApplicationDbContext>().AddDefaultTokenProviders();
+            builder.AddEntityFrameworkStores<CatsaDbContext>().AddDefaultTokenProviders();
         }
 
         public static void ConfigureJWT(this IServiceCollection services, IConfiguration configuration)

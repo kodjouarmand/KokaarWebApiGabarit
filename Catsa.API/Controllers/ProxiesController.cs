@@ -1,10 +1,10 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Catsa.Model.DataTransferObjects;
+using Catsa.Domain.Assemblers;
 using Catsa.API.ActionFilters;
 using Marvin.Cache.Headers;
 using Catsa.Infrastructure.Contracts;
-using Catsa.Business.Contracts;
-using Catsa.Business.Enums;
+using Catsa.BusinessLogic.Contracts;
+using Catsa.BusinessLogic.Enums;
 
 namespace Catsa.API.Controllers
 {

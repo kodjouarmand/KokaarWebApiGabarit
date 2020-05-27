@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
-using Catsa.Model.DataTransferObjects;
-using Catsa.Model.Entities;
+using Catsa.Domain.Assemblers;
+using Catsa.Domain.Entities;
 
 namespace Catsa.API.Mapper
 {
