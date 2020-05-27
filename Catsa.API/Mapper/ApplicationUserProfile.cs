@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Catsa.Domain.Assemblers.Users;
 using Catsa.Domain.Entities;
 using System;
 using System.Collections.Generic;
@@ -6,11 +7,11 @@ using System.Text;
 
 namespace Catsa.Domain.Assemblers.Mapper
 {
-    public class ApplicationUserMapProfile : Profile
+    public class ApplicationUserProfile : Profile
     {
-        public ApplicationUserMapProfile()
+        public ApplicationUserProfile()
         {
-            CreateMap<UserForRegistrationDto, UserAccount>();
+            CreateMap<UserForRegistrationDto, ApplicationUser>();
         }
     }
 }

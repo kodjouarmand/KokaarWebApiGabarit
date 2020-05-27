@@ -1,4 +1,4 @@
-﻿namespace Catsa.Infrastructure.Contracts
+﻿namespace Catsa.Infrastructure.Logging
 {
     public interface ILoggerService 
     { 

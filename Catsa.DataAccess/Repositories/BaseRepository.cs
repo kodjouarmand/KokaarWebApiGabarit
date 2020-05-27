@@ -1,14 +1,12 @@
-﻿using Catsa.DataAccess.Contracts;
-using Catsa.Domain;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using System;
 using System.Linq;
 using System.Linq.Expressions;
 using Catsa.DataAccess.Contexts;
 using Catsa.Domain.Entities;
-using System.Threading.Tasks;
 using System.Collections.Generic;
 using System.Linq.Dynamic.Core;
+using Catsa.DataAccess.Repositories.Contracts;
 
 namespace Catsa.DataAccess.Repositories
 {

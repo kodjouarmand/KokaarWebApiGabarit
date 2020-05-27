@@ -1,11 +1,12 @@
 ﻿using AutoMapper;
 using Catsa.API.ActionFilters;
-using Catsa.Infrastructure.Contracts;
-using Catsa.Domain.Assemblers;
 using Catsa.Domain.Entities;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
+using Catsa.Infrastructure.Logging;
+using Catsa.Infrastructure.Authentication;
+using Catsa.Domain.Assemblers.Users;
 
 namespace Catsa.API.Controllers
 {
@@ -15,9 +16,9 @@ namespace Catsa.API.Controllers
     {
         private readonly ILoggerService _logger;
         private readonly IMapper _mapper;
-        private readonly UserManager<UserAccount> _userManager;
+        private readonly UserManager<ApplicationUser> _userManager;
         private readonly IAuthenticationService _authManager;
-        public AuthenticationController(ILoggerService logger, IMapper mapper, UserManager<UserAccount> userManager, IAuthenticationService authManager)
+        public AuthenticationController(ILoggerService logger, IMapper mapper, UserManager<ApplicationUser> userManager, IAuthenticationService authManager)
         {
             _logger = logger;
             _mapper = mapper;
@@ -30,7 +31,7 @@ namespace Catsa.API.Controllers
         [ServiceFilter(typeof(ValidationFilterAttribute))]
         public async Task<IActionResult> RegisterUser([FromBody] UserForRegistrationDto userForRegistration)
         {
-            var user = _mapper.Map<UserAccount>(userForRegistration);
+            var user = _mapper.Map<ApplicationUser>(userForRegistration);
             var result = await _userManager.CreateAsync(user, userForRegistration.Password);
             if (!result.Succeeded)
             {

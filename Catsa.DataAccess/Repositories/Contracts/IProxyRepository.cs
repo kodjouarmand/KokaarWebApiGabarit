@@ -3,7 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
-namespace Catsa.DataAccess.Contracts
+namespace Catsa.DataAccess.Repositories.Contracts
 {
     public interface IProxyRepository : IBaseRepository<Proxy>
     {

@@ -4,47 +4,32 @@ using Catsa.Domain.Assemblers;
 using System;
 using System.Collections.Generic;
 using System.Text;
-using Catsa.DataAccess.Contracts;
-using Catsa.BusinessLogic.Validations;
+using Catsa.BusinessLogic.Exceptions;
 using Catsa.BusinessLogic.Enums;
-using Catsa.BusinessLogic.Contracts;
+using Catsa.DataAccess.Repositories.Contracts;
 
-namespace Catsa.BusinessLogic
-{    
+namespace Catsa.BusinessLogic.Commands
+{
     [Serializable()]
-    public abstract class BaseService<TBusinessObject, TEntity> : IBaseService<TBusinessObject> where TBusinessObject : BaseDto where TEntity : BaseEntity<int>
-    {       
-        #region Constructor
-
-        public BaseService(IUnitOfWork unitOfWork, IMapper mapper)
+    public abstract class BaseCommand<TBusinessObject, TEntity, TEntityKey> : IBaseCommand<TBusinessObject, TEntityKey> where TBusinessObject : BaseCommandDto where TEntity : BaseEntity<TEntityKey>
+    {
+        protected readonly IUnitOfWork _unitOfWork;
+        protected readonly IMapper _mapper;
+        public DataBaseActionEnum DataBaseAction { get; set; }
+        public string CurrentUser { get; set; }
+       
+        public BaseCommand(IUnitOfWork unitOfWork, IMapper mapper)
         {
             _unitOfWork = unitOfWork ?? throw new ArgumentNullException(nameof(unitOfWork));
             _mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
             DataBaseAction = DataBaseActionEnum.Save;
         }
 
-        #endregion Constructor
-
-        #region Properties
-
-        protected readonly IUnitOfWork _unitOfWork;
-        protected readonly IMapper _mapper;
-
-        public DataBaseActionEnum DataBaseAction { get; set; }
-        public string CurrentUser { get; set; }
-
-        #endregion Properties
-
-        #region Abstract Methods               
-
-        public abstract TBusinessObject GetById(int id);
-        public abstract IEnumerable<TBusinessObject> GetAll();
-
         public abstract void Add(TBusinessObject businessObject);
 
         public abstract void Update(TBusinessObject businessObject);
 
-        public abstract void Delete(int businessObjectId);
+        public abstract void Delete(TEntityKey businessObjectId);
 
         protected TEntity BuildEntity(TBusinessObject businessObject)
         {
@@ -53,12 +38,12 @@ namespace Catsa.BusinessLogic
             if (string.IsNullOrWhiteSpace(CurrentUser))
             {
                 validationErrors.Append("L'utilisateur qui effectue l'opération est requis.");                
-                throw new ValidationException(validationErrors.ToString());
+                throw new CommandValidationException(validationErrors.ToString());
             }
             if (DataBaseAction != DataBaseActionEnum.Save)
             {
                 validationErrors.Append("DataBaseAction n'est pas mis à Save.");
-                throw new ValidationException(validationErrors.ToString());
+                throw new CommandValidationException(validationErrors.ToString());
             }
             if (businessObject.IsNew()) 
             {
@@ -71,7 +56,7 @@ namespace Catsa.BusinessLogic
 
             if (validationErrors.Length != 0)
             {
-                throw new ValidationException(validationErrors.ToString());                
+                throw new CommandValidationException(validationErrors.ToString());                
             }
 
             TEntity entity = MapDtoToEntity(businessObject);
@@ -83,12 +68,6 @@ namespace Catsa.BusinessLogic
         protected abstract StringBuilder ValidateUpdate(TBusinessObject businessObject);
 
         protected abstract StringBuilder ValidateDelete(TBusinessObject businessObject);
-
-        #endregion Abstratct Methods
-
-        #region Public Methods
-
-        protected TBusinessObject MapEntityToDto(TEntity entity) => _mapper.Map<TBusinessObject>(entity);
         
         protected IEnumerable<TBusinessObject> MapEntitiesToDto(IEnumerable<TEntity> entities) => _mapper.Map<IEnumerable<TBusinessObject>>(entities);
 
@@ -104,16 +83,14 @@ namespace Catsa.BusinessLogic
             }
             else
             {
-                var originalBusinessObject = GetById(businessObject.Id);
-                entity.CreationDate = originalBusinessObject.CreationDate;
-                entity.CreationUser = originalBusinessObject.CreationUser;
+                //var originalBusinessObject = GetById(businessObject.Id);
+                //entity.CreationDate = originalBusinessObject.CreationDate;
+                //entity.CreationUser = originalBusinessObject.CreationUser;
                 entity.LastModificationDate = DateTime.Now;
                 entity.LastModificationUser = CurrentUser;
             }
 
             return entity;
         }
-
-        #endregion Public Methods
     }
 }

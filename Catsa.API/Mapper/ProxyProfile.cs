@@ -1,5 +1,5 @@
 ﻿using AutoMapper;
-using Catsa.Domain.Assemblers;
+using Catsa.Domain.Assemblers.Proxies;
 using Catsa.Domain.Entities;
 
 namespace Catsa.API.Mapper
@@ -8,8 +8,8 @@ namespace Catsa.API.Mapper
     {
         public ProxyProfile()
         {
-            CreateMap<Proxy, ProxyDto>();
-            CreateMap<ProxyDto, Proxy>();
+            CreateMap<Proxy, ProxyQueryDto>();
+            CreateMap<ProxyCommandDto, Proxy>();
         }
     }
 }

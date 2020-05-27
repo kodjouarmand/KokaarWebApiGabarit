@@ -1,17 +1,16 @@
 ﻿using System;
-using System.ComponentModel.DataAnnotations;
 
-namespace Catsa.Domain.Entities
+namespace Catsa.Domain.Assemblers
 {
-    public abstract class BaseEntity<TEntityKey>
+    [Serializable()]
+    public abstract class BaseCommandDto : BaseDto
     {
-        [Key]
-        public TEntityKey Id { get; set; }
         public DateTime? CreationDate { get; set; }
         public string CreationUser { get; set; }
         public DateTime? LastModificationDate { get; set; }
         public string LastModificationUser { get; set; }
-        //[Timestamp]
         //public byte[] RowVersion { get; set; }
+
+        public bool IsNew() => Id == 0;        
     }
 }

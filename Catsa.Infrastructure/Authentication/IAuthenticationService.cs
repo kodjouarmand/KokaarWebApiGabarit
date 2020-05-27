@@ -1,7 +1,7 @@
-﻿using Catsa.Domain.Assemblers;
+﻿using Catsa.Domain.Assemblers.Users;
 using System.Threading.Tasks;
 
-namespace Catsa.Infrastructure.Contracts
+namespace Catsa.Infrastructure.Authentication
 {
     public interface IAuthenticationService
     {

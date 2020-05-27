@@ -1,35 +1,21 @@
 ﻿using AutoMapper;
 using Catsa.Domain.Entities;
-using Catsa.BusinessLogic.Contracts;
-using Catsa.BusinessLogic.Validations;
-using Catsa.Domain.Assemblers;
+using Catsa.BusinessLogic.Exceptions;
 using System;
 using System.Collections.Generic;
 using System.Text;
-using Catsa.DataAccess.Contracts;
-using System.Threading.Tasks;
 using Catsa.BusinessLogic.Enums;
+using Catsa.Domain.Assemblers.Proxies;
+using Catsa.DataAccess.Repositories.Contracts;
 
-namespace Catsa.BusinessLogic
+namespace Catsa.BusinessLogic.Commands.Proxies
 {
     [Serializable()]
-    public class ProxyService : BaseService<ProxyDto, Proxy>, IProxyService
+    public class ProxyCommand : BaseCommand<ProxyCommandDto, Proxy, int>, IProxyCommand
     {
-        public ProxyService(IUnitOfWork unitOfWork, IMapper mapper) : base(unitOfWork, mapper) { }
+        public ProxyCommand(IUnitOfWork unitOfWork, IMapper mapper) : base(unitOfWork, mapper) { }
 
-        public override IEnumerable<ProxyDto> GetAll()
-        {
-            var proxies = _unitOfWork.Proxy.GetAll();
-            return MapEntitiesToDto(proxies);
-        }
-
-        public override ProxyDto GetById(int proxyId)
-        {
-            var proxy = _unitOfWork.Proxy.Get(proxyId);
-            return MapEntityToDto(proxy);
-        }
-
-        protected override StringBuilder ValidateAdd(ProxyDto proxyDto)
+        protected override StringBuilder ValidateAdd(ProxyCommandDto proxyDto)
         {
             StringBuilder validationErrors = new StringBuilder();
 
@@ -44,14 +30,14 @@ namespace Catsa.BusinessLogic
             return validationErrors;
         }
        
-        public override void Add(ProxyDto proxyDto)
+        public override void Add(ProxyCommandDto proxyDto)
         {
             var proxy = BuildEntity(proxyDto);
             _unitOfWork.Proxy.Add(proxy);
             _unitOfWork.Save();
         }
 
-        protected override StringBuilder ValidateUpdate(ProxyDto proxyDto)
+        protected override StringBuilder ValidateUpdate(ProxyCommandDto proxyDto)
         {
             StringBuilder validationErrors = new StringBuilder();
 
@@ -66,14 +52,14 @@ namespace Catsa.BusinessLogic
             return validationErrors;
         }
 
-        public override void Update(ProxyDto proxyDto)
+        public override void Update(ProxyCommandDto proxyDto)
         {
             var proxy = BuildEntity(proxyDto);            
             _unitOfWork.Proxy.Update(proxy);
             _unitOfWork.Save();
         }
 
-        protected override StringBuilder ValidateDelete(ProxyDto proxyDto = null)
+        protected override StringBuilder ValidateDelete(ProxyCommandDto proxyDto = null)
         {
             StringBuilder validationErrors = new StringBuilder();
             if (DataBaseAction != DataBaseActionEnum.Delete)
@@ -95,7 +81,7 @@ namespace Catsa.BusinessLogic
             }
             else
             {
-                throw new ValidationException(validationErrors.ToString());
+                throw new CommandValidationException(validationErrors.ToString());
             }
         }
 

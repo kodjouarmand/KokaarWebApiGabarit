@@ -10,7 +10,8 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using NLog;
-using Catsa.Infrastructure.Contracts;
+using Catsa.Infrastructure.Logging;
+using Catsa.Infrastructure.Authentication;
 
 namespace Catsa.API
 {

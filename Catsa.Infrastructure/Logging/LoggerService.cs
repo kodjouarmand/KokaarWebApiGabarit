@@ -1,4 +1,4 @@
-﻿using Catsa.Infrastructure.Contracts;
+﻿using Catsa.Infrastructure.Logging;
 using NLog;
 
 namespace Catsa.Infrastructure

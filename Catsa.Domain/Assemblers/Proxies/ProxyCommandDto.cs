@@ -1,10 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace Catsa.Domain.Assemblers
+﻿namespace Catsa.Domain.Assemblers.Proxies
 {
-    public class ProxyDto : BaseDto
+    public class ProxyCommandDto : BaseCommandDto
     {
         public string Nom { get; set; }
         public string Description { get; set; }

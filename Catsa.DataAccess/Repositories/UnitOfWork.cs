@@ -1,6 +1,5 @@
-﻿using Catsa.DataAccess.Contracts;
-using System.Threading.Tasks;
-using Catsa.DataAccess.Contexts;
+﻿using Catsa.DataAccess.Contexts;
+using Catsa.DataAccess.Repositories.Contracts;
 
 namespace Catsa.DataAccess.Repositories
 {

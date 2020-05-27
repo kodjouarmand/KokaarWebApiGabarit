@@ -6,7 +6,7 @@ using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Catsa.DataAccess.Contracts
+namespace Catsa.DataAccess.Repositories.Contracts
 {
     public interface IBaseRepository<TEntity> where TEntity : BaseEntity<int>
     {

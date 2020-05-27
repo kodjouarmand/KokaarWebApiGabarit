@@ -1,4 +1,5 @@
 ﻿using Catsa.Domain.Assemblers;
+using Catsa.Domain.Assemblers.Proxies;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc.Formatters;
 using Microsoft.Net.Http.Headers;
@@ -19,7 +20,7 @@ namespace Catsa.API.CustomFormatter
         }
         protected override bool CanWriteType(Type type)
         {
-            if (typeof(ProxyDto).IsAssignableFrom(type) || typeof(IEnumerable<ProxyDto>).IsAssignableFrom(type))
+            if (typeof(ProxyQueryDto).IsAssignableFrom(type) || typeof(IEnumerable<ProxyQueryDto>).IsAssignableFrom(type))
             {
                 return base.CanWriteType(type);
             }
@@ -29,20 +30,20 @@ namespace Catsa.API.CustomFormatter
         {
             var response = context.HttpContext.Response;
             var buffer = new StringBuilder();
-            if (context.Object is IEnumerable<ProxyDto>)
+            if (context.Object is IEnumerable<ProxyQueryDto>)
             {
-                foreach (var proxy in (IEnumerable<ProxyDto>)context.Object)
+                foreach (var proxy in (IEnumerable<ProxyQueryDto>)context.Object)
                 {
                     FormatCsv(buffer, proxy);
                 }
             }
             else
             {
-                FormatCsv(buffer, (ProxyDto)context.Object);
+                FormatCsv(buffer, (ProxyQueryDto)context.Object);
             }
             await response.WriteAsync(buffer.ToString());
         }
-        private static void FormatCsv(StringBuilder buffer, ProxyDto proxy)
+        private static void FormatCsv(StringBuilder buffer, ProxyQueryDto proxy)
         {
             buffer.AppendLine($"{proxy.Id},\"{proxy.Nom},\"{proxy.Description}\"");
         }

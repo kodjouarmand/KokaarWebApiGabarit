@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Catsa.DataAccess.Contexts
 {
-    public class CatsaDbContext : IdentityDbContext<UserAccount>
+    public class CatsaDbContext : IdentityDbContext<ApplicationUser>
     {
         public CatsaDbContext(DbContextOptions options)
         : base(options)

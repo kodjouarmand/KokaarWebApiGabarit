@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Text;
 
-namespace Catsa.Domain.Assemblers
+namespace Catsa.Domain.Assemblers.Users
 {
     public class UserForRegistrationDto
     {

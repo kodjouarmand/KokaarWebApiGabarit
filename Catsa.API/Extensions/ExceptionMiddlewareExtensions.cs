@@ -1,4 +1,4 @@
-﻿using Catsa.Infrastructure.Contracts;
+﻿using Catsa.Infrastructure.Logging;
 using Catsa.Domain.ErrorModel;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Diagnostics;

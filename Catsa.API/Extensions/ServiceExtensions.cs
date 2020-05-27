@@ -16,12 +16,12 @@ using Microsoft.OpenApi.Models;
 using System;
 using System.Collections.Generic;
 using System.Text;
-using Catsa.Infrastructure.Contracts;
+using Catsa.Infrastructure.Logging;
 using Catsa.DataAccess.Contexts;
-using Catsa.BusinessLogic.Contracts;
-using Catsa.BusinessLogic;
-using Catsa.DataAccess.Contracts;
 using Catsa.DataAccess.Repositories;
+using Catsa.DataAccess.Repositories.Contracts;
+using Catsa.BusinessLogic.Queries.Proxies;
+using Catsa.BusinessLogic.Commands.Proxies;
 
 namespace Catsa.API.Extensions
 {
@@ -50,7 +50,8 @@ namespace Catsa.API.Extensions
         public static void ConfigureBusinessServices(this IServiceCollection services)
         {
             services.AddScoped<IUnitOfWork, UnitOfWork>();
-            services.AddScoped<IProxyService, ProxyService>();
+            services.AddScoped<IProxyQuery, ProxyQuery>();
+            services.AddScoped<IProxyCommand, ProxyCommand>();
         }
 
         public static IMvcBuilder AddCustomCSVFormatter(this IMvcBuilder builder) =>
@@ -105,7 +106,7 @@ namespace Catsa.API.Extensions
 
         public static void ConfigureIdentity(this IServiceCollection services)
         {
-            var builder = services.AddIdentityCore<UserAccount>(o =>
+            var builder = services.AddIdentityCore<ApplicationUser>(o =>
             {
                 o.Password.RequireDigit = true;
                 o.Password.RequireLowercase = false;

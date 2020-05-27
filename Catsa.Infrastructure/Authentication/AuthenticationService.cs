@@ -1,4 +1,4 @@
-﻿using Catsa.Domain.Assemblers;
+﻿using Catsa.Domain.Assemblers.Users;
 using Catsa.Domain.Entities;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Configuration;
@@ -6,20 +6,19 @@ using Microsoft.IdentityModel.Tokens;
 using System;
 using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
-using System.Linq;
 using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Catsa.Infrastructure.Contracts
+namespace Catsa.Infrastructure.Authentication
 {
     public class AuthenticationService : IAuthenticationService
     {
-        private readonly UserManager<UserAccount> _userManager;
+        private readonly UserManager<ApplicationUser> _userManager;
         private readonly IConfiguration _configuration;
-        private UserAccount _user;
+        private ApplicationUser _user;
 
-        public AuthenticationService(UserManager<UserAccount> userManager, IConfiguration configuration)
+        public AuthenticationService(UserManager<ApplicationUser> userManager, IConfiguration configuration)
         {
             _userManager = userManager;
             _configuration = configuration;
