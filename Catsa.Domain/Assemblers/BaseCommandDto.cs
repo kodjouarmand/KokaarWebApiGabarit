@@ -2,7 +2,6 @@
 
 namespace Catsa.Domain.Assemblers
 {
-    [Serializable()]
     public abstract class BaseCommandDto<TEntityKey> : BaseDto<TEntityKey>
     {
         public DateTime? CreationDate { get; set; }

@@ -7,7 +7,6 @@ using Catsa.DataAccess.Repositories.Contracts;
 
 namespace Catsa.BusinessLogic.Queries.Proxies
 {
-    [Serializable()]
     public class ProxyQuery : BaseQuery<ProxyQueryDto, Proxy, int>, IProxyQuery
     {
         public ProxyQuery(IUnitOfWork unitOfWork, IMapper mapper) : base(unitOfWork, mapper) { }

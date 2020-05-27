@@ -10,7 +10,6 @@ using Catsa.DataAccess.Repositories.Contracts;
 
 namespace Catsa.BusinessLogic.Queries
 {
-    [Serializable()]
     public abstract class BaseQuery<TBusinessObject, TEntity, TEntityKey> : IBaseQuery<TBusinessObject, TEntityKey> where TBusinessObject : BaseDto<TEntityKey> where TEntity : BaseEntity<TEntityKey>
     {
         protected readonly IUnitOfWork _unitOfWork;

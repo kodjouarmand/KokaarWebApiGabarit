@@ -3,22 +3,21 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Catsa.DataAccess.Repositories.Contracts
 {
     public interface IBaseRepository<TEntity, TEntityKey> where TEntity : BaseEntity<TEntityKey>
     {
-        IEnumerable<TEntity> GetAll(bool trackChanges = true);
+        TEntity GetById(TEntityKey id);
+        IEnumerable<TEntity> GetAll(Expression<Func<TEntity, bool>> fliter = null,
+            Func<IQueryable<TEntity>, IOrderedQueryable<TEntity>> orderBy = null,
+            string includeProperties = null);
 
-        TEntity GetById(TEntityKey entityId, bool trackChanges = true);
-
-        IQueryable<TEntity> GetByCondition(Expression<Func<TEntity, bool>> expression, bool trackChanges = true);        
+        IQueryable<TEntity> Get( Expression<Func<TEntity, bool>> fliter = null,
+           string includeProperties = null);
 
         void Add(TEntity entity);
 
-        void Update(TEntity entity);
-        void Delete(TEntityKey entityId);
+        void Delete(TEntityKey id);
     }
 }

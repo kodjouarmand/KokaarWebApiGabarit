@@ -7,6 +7,7 @@ using Catsa.Domain.Assemblers.Proxies;
 using Catsa.BusinessLogic.Queries.Proxies;
 using Catsa.BusinessLogic.Commands.Proxies;
 using System;
+using System.Linq;
 
 namespace Catsa.API.Controllers
 {
@@ -31,19 +32,29 @@ namespace Catsa.API.Controllers
         public  IActionResult GetAll()
         {
             var proxies =  _proxyQuery.GetAll();
-            return Ok(proxies);
+            if (proxies == null || proxies.Count() == 0)
+            {
+                var message = $"Aucun enregistrement trouvé.";
+                _logger.LogInfo(message);
+                return NotFound(message);
+            }
+            else
+            {
+                return Ok(proxies);
+            }
         }
 
         [HttpGet("{proxyId}", Name = "GetProxyById")]
-        [HttpCacheExpiration(CacheLocation = CacheLocation.Public, MaxAge = 60)]
+        [HttpCacheExpiration(CacheLocation = CacheLocation.Public, MaxAge = 0)]
         [HttpCacheValidation(MustRevalidate = false)]
         public  IActionResult GetById(int proxyId)
         {
             var proxy =  _proxyQuery.GetById(proxyId);
             if (proxy == null)
             {
-                _logger.LogInfo($"Proxy with id: {proxyId} doesn't exist in the database.");
-                return NotFound();
+                var message = $"Le proxy dont l'id est << {proxyId} >> n'existe pas.";
+                _logger.LogInfo(message);
+                return NotFound(message);
             }
             else
             {

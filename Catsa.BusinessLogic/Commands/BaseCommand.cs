@@ -11,7 +11,7 @@ using Catsa.BusinessLogic.Queries;
 
 namespace Catsa.BusinessLogic.Commands
 {
-    public abstract class BaseCommand<TBusinessObject, TEntity, TEntityKey> : IBaseCommand<TBusinessObject, TEntityKey> where TBusinessObject : BaseCommandDto<TEntityKey> where TEntity : BaseEntity<TEntityKey>
+   public abstract class BaseCommand<TBusinessObject, TEntity, TEntityKey> : IBaseCommand<TBusinessObject, TEntityKey> where TBusinessObject : BaseCommandDto<TEntityKey> where TEntity : BaseEntity<TEntityKey>
     {
         protected readonly IUnitOfWork _unitOfWork;
         protected readonly IMapper _mapper;
@@ -68,9 +68,6 @@ namespace Catsa.BusinessLogic.Commands
         protected abstract StringBuilder ValidateUpdate(TBusinessObject businessObject);
 
         protected abstract StringBuilder ValidateDelete(TBusinessObject businessObject);
-
-        protected IEnumerable<TBusinessObject> MapEntitiesToDto(IEnumerable<TEntity> entities) => _mapper.Map<IEnumerable<TBusinessObject>>(entities);
-
 
         protected TEntity MapDtoToEntity(TBusinessObject businessObject)
         {

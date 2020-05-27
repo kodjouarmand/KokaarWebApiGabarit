@@ -10,7 +10,6 @@ using Catsa.BusinessLogic.Queries.Proxies;
 
 namespace Catsa.BusinessLogic.Commands.Proxies
 {
-    [Serializable()]
     public class ProxyCommand : BaseCommand<ProxyCommandDto, Proxy, int>, IProxyCommand
     {
         
