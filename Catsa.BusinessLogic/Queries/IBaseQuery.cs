@@ -4,7 +4,7 @@ using Catsa.BusinessLogic.Enums;
 
 namespace Catsa.BusinessLogic.Queries
 {
-    public interface IBaseQuery<TBusinessObject, TEntityKey> where TBusinessObject : BaseDto
+    public interface IBaseQuery<TBusinessObject, TEntityKey> where TBusinessObject : BaseDto<TEntityKey>
     {
         TBusinessObject GetById(TEntityKey id);
         IEnumerable<TBusinessObject> GetAll();        

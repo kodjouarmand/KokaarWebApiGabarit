@@ -1,27 +1,28 @@
 ﻿using Catsa.DataAccess.Contexts;
 using Catsa.DataAccess.Repositories.Contracts;
+using System;
 
 namespace Catsa.DataAccess.Repositories
 {
     public class UnitOfWork : IUnitOfWork
     {
-        private CatsaDbContext _repositoryContext;
+        private CatsaDbContext _catsaDbContext;
         private IProxyRepository _proxyRepository;
-        public UnitOfWork(CatsaDbContext repositoryContext)
+        public UnitOfWork(CatsaDbContext catsaDbContext)
         {
-            _repositoryContext = repositoryContext;
+            _catsaDbContext = catsaDbContext ?? throw new ArgumentNullException(nameof(catsaDbContext));
         }
         public IProxyRepository Proxy
         {
             get
             {
                 if (_proxyRepository == null)
-                    _proxyRepository = new ProxyRepository(_repositoryContext);
+                    _proxyRepository = new ProxyRepository(_catsaDbContext);
                 return _proxyRepository;
             }
         }
         
-        public void Save() => _repositoryContext.SaveChanges();
+        public void Save() => _catsaDbContext.SaveChanges();
     }
 
 }

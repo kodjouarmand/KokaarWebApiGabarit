@@ -8,8 +8,11 @@ namespace Catsa.API.Mapper
     {
         public ProxyProfile()
         {
+            CreateMap<Proxy, Proxy>();
             CreateMap<Proxy, ProxyQueryDto>();
-            CreateMap<ProxyCommandDto, Proxy>();
+            CreateMap<Proxy, ProxyCommandDto>();
+            CreateMap<ProxyCommandDto, Proxy>();            
+
         }
     }
 }

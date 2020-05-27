@@ -2,64 +2,65 @@
 using Catsa.Domain.Entities;
 using Catsa.BusinessLogic.Exceptions;
 using System;
-using System.Collections.Generic;
 using System.Text;
 using Catsa.BusinessLogic.Enums;
 using Catsa.Domain.Assemblers.Proxies;
 using Catsa.DataAccess.Repositories.Contracts;
+using Catsa.BusinessLogic.Queries.Proxies;
 
 namespace Catsa.BusinessLogic.Commands.Proxies
 {
     [Serializable()]
     public class ProxyCommand : BaseCommand<ProxyCommandDto, Proxy, int>, IProxyCommand
     {
-        public ProxyCommand(IUnitOfWork unitOfWork, IMapper mapper) : base(unitOfWork, mapper) { }
+        
+        public ProxyCommand(IUnitOfWork unitOfWork, IMapper mapper) : base(unitOfWork, mapper) {}
 
-        protected override StringBuilder ValidateAdd(ProxyCommandDto proxyDto)
+        protected override StringBuilder ValidateAdd(ProxyCommandDto proxyCommandDto)
         {
             StringBuilder validationErrors = new StringBuilder();
 
-            if (!proxyDto.IsNew())
+            if (!proxyCommandDto.IsNew())
             {
                 validationErrors.Append("La ressource que vous souhaitez ajouter existe déjà.");
                 return validationErrors;
             }
-            var validationResult = new ProxyValidator().Validate(proxyDto);
+            var validationResult = new ProxyValidator().Validate(proxyCommandDto);
             validationErrors.Append(validationResult.ToString());
 
             return validationErrors;
         }
-       
-        public override void Add(ProxyCommandDto proxyDto)
+
+        public override void Add(ProxyCommandDto proxyCommandDto)
         {
-            var proxy = BuildEntity(proxyDto);
+            var proxy = BuildEntity(proxyCommandDto);
             _unitOfWork.Proxy.Add(proxy);
             _unitOfWork.Save();
         }
 
-        protected override StringBuilder ValidateUpdate(ProxyCommandDto proxyDto)
+        protected override StringBuilder ValidateUpdate(ProxyCommandDto proxyCommandDto)
         {
             StringBuilder validationErrors = new StringBuilder();
 
-            if (proxyDto.IsNew())
+            if (proxyCommandDto.IsNew())
             {
                 validationErrors.Append("La ressource que vous souhaitez mettre à jour n'existe pas.");
                 return validationErrors;
             }
-            var validationResult = new ProxyValidator().Validate(proxyDto);
+            var validationResult = new ProxyValidator().Validate(proxyCommandDto);
             validationErrors.Append(validationResult.ToString());
 
             return validationErrors;
         }
 
-        public override void Update(ProxyCommandDto proxyDto)
+        public override void Update(ProxyCommandDto proxyCommandDto)
         {
-            var proxy = BuildEntity(proxyDto);            
+            var proxy = BuildEntity(proxyCommandDto);
             _unitOfWork.Proxy.Update(proxy);
             _unitOfWork.Save();
         }
 
-        protected override StringBuilder ValidateDelete(ProxyCommandDto proxyDto = null)
+        protected override StringBuilder ValidateDelete(ProxyCommandDto proxyCommandDto = null)
         {
             StringBuilder validationErrors = new StringBuilder();
             if (DataBaseAction != DataBaseActionEnum.Delete)

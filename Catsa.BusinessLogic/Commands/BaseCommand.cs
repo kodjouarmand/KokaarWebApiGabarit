@@ -7,17 +7,17 @@ using System.Text;
 using Catsa.BusinessLogic.Exceptions;
 using Catsa.BusinessLogic.Enums;
 using Catsa.DataAccess.Repositories.Contracts;
+using Catsa.BusinessLogic.Queries;
 
 namespace Catsa.BusinessLogic.Commands
 {
-    [Serializable()]
-    public abstract class BaseCommand<TBusinessObject, TEntity, TEntityKey> : IBaseCommand<TBusinessObject, TEntityKey> where TBusinessObject : BaseCommandDto where TEntity : BaseEntity<TEntityKey>
+    public abstract class BaseCommand<TBusinessObject, TEntity, TEntityKey> : IBaseCommand<TBusinessObject, TEntityKey> where TBusinessObject : BaseCommandDto<TEntityKey> where TEntity : BaseEntity<TEntityKey>
     {
         protected readonly IUnitOfWork _unitOfWork;
         protected readonly IMapper _mapper;
         public DataBaseActionEnum DataBaseAction { get; set; }
         public string CurrentUser { get; set; }
-       
+
         public BaseCommand(IUnitOfWork unitOfWork, IMapper mapper)
         {
             _unitOfWork = unitOfWork ?? throw new ArgumentNullException(nameof(unitOfWork));
@@ -37,7 +37,7 @@ namespace Catsa.BusinessLogic.Commands
 
             if (string.IsNullOrWhiteSpace(CurrentUser))
             {
-                validationErrors.Append("L'utilisateur qui effectue l'opération est requis.");                
+                validationErrors.Append("L'utilisateur qui effectue l'opération est requis.");
                 throw new CommandValidationException(validationErrors.ToString());
             }
             if (DataBaseAction != DataBaseActionEnum.Save)
@@ -45,7 +45,7 @@ namespace Catsa.BusinessLogic.Commands
                 validationErrors.Append("DataBaseAction n'est pas mis à Save.");
                 throw new CommandValidationException(validationErrors.ToString());
             }
-            if (businessObject.IsNew()) 
+            if (businessObject.IsNew())
             {
                 validationErrors = ValidateAdd(businessObject);
             }
@@ -56,7 +56,7 @@ namespace Catsa.BusinessLogic.Commands
 
             if (validationErrors.Length != 0)
             {
-                throw new CommandValidationException(validationErrors.ToString());                
+                throw new CommandValidationException(validationErrors.ToString());
             }
 
             TEntity entity = MapDtoToEntity(businessObject);
@@ -68,24 +68,21 @@ namespace Catsa.BusinessLogic.Commands
         protected abstract StringBuilder ValidateUpdate(TBusinessObject businessObject);
 
         protected abstract StringBuilder ValidateDelete(TBusinessObject businessObject);
-        
+
         protected IEnumerable<TBusinessObject> MapEntitiesToDto(IEnumerable<TEntity> entities) => _mapper.Map<IEnumerable<TBusinessObject>>(entities);
 
 
         protected TEntity MapDtoToEntity(TBusinessObject businessObject)
         {
             TEntity entity = _mapper.Map<TEntity>(businessObject);
-            
+
             if (businessObject.IsNew())
             {
                 entity.CreationDate = DateTime.Now;
                 entity.CreationUser = CurrentUser;
             }
             else
-            {
-                //var originalBusinessObject = GetById(businessObject.Id);
-                //entity.CreationDate = originalBusinessObject.CreationDate;
-                //entity.CreationUser = originalBusinessObject.CreationUser;
+            {                
                 entity.LastModificationDate = DateTime.Now;
                 entity.LastModificationUser = CurrentUser;
             }

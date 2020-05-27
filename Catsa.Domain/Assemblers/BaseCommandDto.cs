@@ -3,7 +3,7 @@
 namespace Catsa.Domain.Assemblers
 {
     [Serializable()]
-    public abstract class BaseCommandDto : BaseDto
+    public abstract class BaseCommandDto<TEntityKey> : BaseDto<TEntityKey>
     {
         public DateTime? CreationDate { get; set; }
         public string CreationUser { get; set; }
@@ -11,6 +11,6 @@ namespace Catsa.Domain.Assemblers
         public string LastModificationUser { get; set; }
         //public byte[] RowVersion { get; set; }
 
-        public bool IsNew() => Id == 0;        
+        public bool IsNew() => Id.Equals(default(TEntityKey));
     }
 }

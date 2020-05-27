@@ -4,7 +4,7 @@ using Catsa.BusinessLogic.Enums;
 
 namespace Catsa.BusinessLogic.Commands
 {
-    public interface IBaseCommand<TBusinessObject, TEntityKey> where TBusinessObject : BaseCommandDto
+    public interface IBaseCommand<TBusinessObject, TEntityKey> where TBusinessObject : BaseCommandDto<TEntityKey>
     {
         DataBaseActionEnum DataBaseAction { get; set; }
         string CurrentUser { get; set; }

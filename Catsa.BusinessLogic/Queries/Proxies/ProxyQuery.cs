@@ -20,7 +20,7 @@ namespace Catsa.BusinessLogic.Queries.Proxies
 
         public override ProxyQueryDto GetById(int proxyId)
         {
-            var proxy = _unitOfWork.Proxy.Get(proxyId);
+            var proxy = _unitOfWork.Proxy.GetById(proxyId);
             return MapEntityToDto(proxy);
         }
     }

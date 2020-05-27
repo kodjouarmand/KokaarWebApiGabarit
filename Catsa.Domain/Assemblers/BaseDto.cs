@@ -3,8 +3,8 @@
 namespace Catsa.Domain.Assemblers
 {
     [Serializable()]
-    public abstract class BaseDto
+    public abstract class BaseDto<TEntityKey>
     {
-        public int Id { get; set; }       
+        public TEntityKey Id { get; set; }       
     }
 }

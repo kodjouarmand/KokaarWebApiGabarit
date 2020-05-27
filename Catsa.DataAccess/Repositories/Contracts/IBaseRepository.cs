@@ -8,17 +8,17 @@ using System.Threading.Tasks;
 
 namespace Catsa.DataAccess.Repositories.Contracts
 {
-    public interface IBaseRepository<TEntity> where TEntity : BaseEntity<int>
+    public interface IBaseRepository<TEntity, TEntityKey> where TEntity : BaseEntity<TEntityKey>
     {
-        IEnumerable<TEntity> GetAll(bool trackChanges = false);
+        IEnumerable<TEntity> GetAll(bool trackChanges = true);
 
-        TEntity Get(int id, bool trackChanges = false);
+        TEntity GetById(TEntityKey entityId, bool trackChanges = true);
 
-        IQueryable<TEntity> GetByCondition(Expression<Func<TEntity, bool>> expression, bool trackChanges = false);        
+        IQueryable<TEntity> GetByCondition(Expression<Func<TEntity, bool>> expression, bool trackChanges = true);        
 
         void Add(TEntity entity);
 
         void Update(TEntity entity);
-        void Delete(int entityId);
+        void Delete(TEntityKey entityId);
     }
 }

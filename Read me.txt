@@ -1,2 +1,1 @@
-Sauvegarde effectué avant l'introduction de classe de base pour la prise en compte des champ d'audit.
-Version stable (pourra être présentée, sous reserve de changes Company) --> Proxy
+Ajout du Pattern Command and Query

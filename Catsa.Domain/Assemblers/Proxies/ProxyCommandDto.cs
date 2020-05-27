@@ -1,6 +1,6 @@
 ﻿namespace Catsa.Domain.Assemblers.Proxies
 {
-    public class ProxyCommandDto : BaseCommandDto
+    public class ProxyCommandDto : BaseCommandDto<int>
     {
         public string Nom { get; set; }
         public string Description { get; set; }

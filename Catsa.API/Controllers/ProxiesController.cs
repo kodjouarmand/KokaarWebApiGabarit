@@ -6,6 +6,7 @@ using Catsa.BusinessLogic.Enums;
 using Catsa.Domain.Assemblers.Proxies;
 using Catsa.BusinessLogic.Queries.Proxies;
 using Catsa.BusinessLogic.Commands.Proxies;
+using System;
 
 namespace Catsa.API.Controllers
 {
@@ -20,9 +21,9 @@ namespace Catsa.API.Controllers
         private readonly IProxyCommand _proxyCommand;
         public ProxiesController(ILoggerService logger, IProxyQuery proxyQuery, IProxyCommand proxyCommand)
         {
-            _logger = logger;
-            _proxyQuery = proxyQuery;
-            _proxyCommand = proxyCommand;
+            _logger = logger ?? throw new ArgumentNullException(nameof(logger));
+            _proxyQuery = proxyQuery ?? throw new ArgumentNullException(nameof(proxyQuery));
+            _proxyCommand = proxyCommand ?? throw new ArgumentNullException(nameof(proxyCommand));
         }
 
         //[HttpGet(Name = "GetProxies"), Authorize(Roles = "Manager")]
