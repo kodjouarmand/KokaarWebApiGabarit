@@ -4,11 +4,11 @@ using System;
 
 namespace Catsa.DataAccess.Repositories
 {
-    public class UnitOfWork : IUnitOfWork
+    public class CatsaDbUnitOfWork : ICatsaDbUnitOfWork
     {
         private CatsaDbContext _catsaDbContext;
         private IProxyRepository _proxyRepository;
-        public UnitOfWork(CatsaDbContext catsaDbContext)
+        public CatsaDbUnitOfWork(CatsaDbContext catsaDbContext)
         {
             _catsaDbContext = catsaDbContext ?? throw new ArgumentNullException(nameof(catsaDbContext));
         }

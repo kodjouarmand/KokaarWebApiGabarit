@@ -1,14 +1,12 @@
 ﻿using AspNetCoreRateLimit;
 using Catsa.API.CustomFormatter;
 using Catsa.Domain.Entities;
-using Catsa.Infrastructure;
 using Marvin.Cache.Headers;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Versioning;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
@@ -18,15 +16,23 @@ using System.Collections.Generic;
 using System.Text;
 using Catsa.Infrastructure.Logging;
 using Catsa.DataAccess.Contexts;
-using Catsa.DataAccess.Repositories;
-using Catsa.DataAccess.Repositories.Contracts;
-using Catsa.BusinessLogic.Queries.Proxies;
-using Catsa.BusinessLogic.Commands.Proxies;
+using Catsa.Infrastructure.Authentication;
+using AutoMapper;
+using Catsa.API.ActionFilters;
 
 namespace Catsa.API.Extensions
 {
     public static class ServiceExtensions
     {
+        public static void ConfigureControllers(this IServiceCollection services) =>
+            services.AddControllers(config =>
+            {
+                config.RespectBrowserAcceptHeader = true;
+                config.ReturnHttpNotAcceptable = true;
+                config.CacheProfiles.Add("120SecondsDuration", new CacheProfile { Duration = 120 });
+            }).AddXmlDataContractSerializerFormatters()
+            .AddCustomCSVFormatter();
+
         public static void ConfigureCors(this IServiceCollection services) =>
             services.AddCors(options =>
             {
@@ -42,17 +48,26 @@ namespace Catsa.API.Extensions
         public static void ConfigureLoggerService(this IServiceCollection services) =>
             services.AddScoped<ILoggerService, LoggerService>();
 
-        public static void ConfigureSqlContext(this IServiceCollection services, IConfiguration configuration) =>
-            services.AddDbContext<CatsaDbContext>(opts =>
-            opts.UseSqlServer(configuration.GetConnectionString("sqlConnection"), b =>
-                b.MigrationsAssembly("Catsa.API")));
+        public static void ConfigureAuthenticationService(this IServiceCollection services) =>
+            services.AddScoped<IAuthenticationService, AuthenticationService>();
 
-        public static void ConfigureBusinessServices(this IServiceCollection services)
-        {
-            services.AddScoped<IUnitOfWork, UnitOfWork>();
-            services.AddScoped<IProxyQuery, ProxyQuery>();
-            services.AddScoped<IProxyCommand, ProxyCommand>();
-        }
+        public static void ConfigureAutoMapper(this IServiceCollection services) =>
+            services.AddAutoMapper(typeof(Startup));
+
+        public static void ConfigureActionFilters(this IServiceCollection services) =>
+            services.AddScoped<ValidationFilterAttribute>();
+
+        //public static void ConfigureSqlContext(this IServiceCollection services, IConfiguration configuration) =>
+        //    services.AddDbContext<CatsaDbContext>(opts =>
+        //    opts.UseSqlServer(configuration.GetConnectionString("CatsaSqlConnection"), b =>
+        //        b.MigrationsAssembly("Catsa.API")));
+
+        //public static void ConfigureBusinessServices(this IServiceCollection services)
+        //{
+        //    services.AddScoped<ICatsaDbUnitOfWork, CatsaDbUnitOfWork>();
+        //    services.AddScoped<IProxyQuery, ProxyQuery>();
+        //    services.AddScoped<IProxyCommand, ProxyCommand>();
+        //}
 
         public static IMvcBuilder AddCustomCSVFormatter(this IMvcBuilder builder) =>
             builder.AddMvcOptions(config => config.OutputFormatters.Add(new CsvOutputFormatter()));
@@ -123,7 +138,7 @@ namespace Catsa.API.Extensions
         public static void ConfigureJWT(this IServiceCollection services, IConfiguration configuration)
         {
             var jwtSettings = configuration.GetSection("JwtSettings");
-            var secretKey = "CodeMazeSecretKey";// Environment.GetEnvironmentVariable("SECRET");
+            var secretKey = "CatsaSecretKey";// Environment.GetEnvironmentVariable("SECRET");
             services.AddAuthentication(opt =>
             {
                 opt.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
@@ -150,7 +165,7 @@ namespace Catsa.API.Extensions
             {
                 s.SwaggerDoc("v1", new OpenApiInfo
                 {
-                    Title = "Kokaar API",
+                    Title = "CATSA API",
                     Version = "v1",
                     Description = "Catsa.API",
                     TermsOfService = new Uri("https://example.com/terms"),
@@ -196,7 +211,5 @@ namespace Catsa.API.Extensions
                 });
             });
         }
-
-
     }
 }

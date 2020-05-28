@@ -9,7 +9,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Catsa.API.Migrations
 {
     [DbContext(typeof(CatsaDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    partial class CatsaDbContextModelSnapshot : ModelSnapshot
     {
         protected override void BuildModel(ModelBuilder modelBuilder)
         {
@@ -19,60 +19,7 @@ namespace Catsa.API.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-            modelBuilder.Entity("Catsa.Domain.Entities.Proxy", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<DateTime?>("CreationDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("CreationUser")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Description")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime?>("LastModificationDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("LastModificationUser")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Nom")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Type")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Proxies");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            CreationDate = new DateTime(2020, 5, 26, 12, 57, 34, 729, DateTimeKind.Local).AddTicks(5344),
-                            CreationUser = "application",
-                            Description = "Proxy de type REST",
-                            Nom = "Bravo",
-                            Type = "REST"
-                        },
-                        new
-                        {
-                            Id = 2,
-                            CreationDate = new DateTime(2020, 5, 26, 12, 57, 34, 729, DateTimeKind.Local).AddTicks(9961),
-                            CreationUser = "application",
-                            Description = "Proxy de type SOAP",
-                            Nom = "Alpha",
-                            Type = "SOAP"
-                        });
-                });
-
-            modelBuilder.Entity("Catsa.Domain.Entities.UserAccount", b =>
+            modelBuilder.Entity("Catsa.Domain.Entities.ApplicationUser", b =>
                 {
                     b.Property<string>("Id")
                         .HasColumnType("nvarchar(450)");
@@ -143,6 +90,58 @@ namespace Catsa.API.Migrations
                     b.ToTable("AspNetUsers");
                 });
 
+            modelBuilder.Entity("Catsa.Domain.Entities.Proxy", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime?>("CreationDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("CreationUser")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Description")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime?>("LastModificationDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("LastModificationUser")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Nom")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Type")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Proxies");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = new Guid("a5b0f18b-7489-4fce-83e3-ab9b60958364"),
+                            CreationDate = new DateTime(2020, 5, 27, 15, 47, 10, 473, DateTimeKind.Local).AddTicks(8535),
+                            CreationUser = "application",
+                            Description = "Proxy de type REST",
+                            Nom = "Bravo",
+                            Type = "REST"
+                        },
+                        new
+                        {
+                            Id = new Guid("b430a53c-0767-4df4-97a8-32035be5908c"),
+                            CreationDate = new DateTime(2020, 5, 27, 15, 47, 10, 474, DateTimeKind.Local).AddTicks(1972),
+                            CreationUser = "application",
+                            Description = "Proxy de type SOAP",
+                            Nom = "Alpha",
+                            Type = "SOAP"
+                        });
+                });
+
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
                 {
                     b.Property<string>("Id")
@@ -172,15 +171,15 @@ namespace Catsa.API.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "3aec26d2-8e7e-4c76-9400-d5640ef8d727",
-                            ConcurrencyStamp = "9ae6bdd0-a019-4842-8084-843f74acc5a2",
+                            Id = "c6f6ad3e-5936-44fa-91d7-10cc31813473",
+                            ConcurrencyStamp = "e5db2aeb-29c3-47c4-85e1-81bf1fdf90af",
                             Name = "Manager",
                             NormalizedName = "MANAGER"
                         },
                         new
                         {
-                            Id = "10ac71a6-3542-4578-b8a7-a9548040776d",
-                            ConcurrencyStamp = "400fffd9-dd3e-41be-a407-eeae8ac55669",
+                            Id = "71495967-9768-485f-ad76-18843527056f",
+                            ConcurrencyStamp = "7ca6c4ab-59aa-410b-8a5d-55bc3fa22ebf",
                             Name = "Administrator",
                             NormalizedName = "ADMINISTRATOR"
                         });
@@ -301,7 +300,7 @@ namespace Catsa.API.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<string>", b =>
                 {
-                    b.HasOne("Catsa.Domain.Entities.UserAccount", null)
+                    b.HasOne("Catsa.Domain.Entities.ApplicationUser", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -310,7 +309,7 @@ namespace Catsa.API.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<string>", b =>
                 {
-                    b.HasOne("Catsa.Domain.Entities.UserAccount", null)
+                    b.HasOne("Catsa.Domain.Entities.ApplicationUser", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -325,7 +324,7 @@ namespace Catsa.API.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Catsa.Domain.Entities.UserAccount", null)
+                    b.HasOne("Catsa.Domain.Entities.ApplicationUser", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -334,7 +333,7 @@ namespace Catsa.API.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<string>", b =>
                 {
-                    b.HasOne("Catsa.Domain.Entities.UserAccount", null)
+                    b.HasOne("Catsa.Domain.Entities.ApplicationUser", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)

@@ -1,11 +1,8 @@
 ﻿using Newtonsoft.Json;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
-namespace Catsa.Domain.ErrorModel
+namespace Catsa.Domain.Errors
 {
-    public class ErrorDetails
+    public class ErrorModel
     {
         public int StatusCode { get; set; }
         public string Message { get; set; }

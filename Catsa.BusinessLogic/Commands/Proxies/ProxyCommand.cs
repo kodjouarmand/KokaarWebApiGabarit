@@ -10,10 +10,10 @@ using Catsa.BusinessLogic.Queries.Proxies;
 
 namespace Catsa.BusinessLogic.Commands.Proxies
 {
-    public class ProxyCommand : BaseCommand<ProxyCommandDto, Proxy, int>, IProxyCommand
+    public class ProxyCommand : BaseCommand<ProxyCommandDto, Proxy, Guid>, IProxyCommand
     {
-        
-        public ProxyCommand(IUnitOfWork unitOfWork, IMapper mapper) : base(unitOfWork, mapper) {}
+
+        public ProxyCommand(ICatsaDbUnitOfWork unitOfWork, IMapper mapper) : base(unitOfWork, mapper) { }
 
         protected override StringBuilder ValidateAdd(ProxyCommandDto proxyCommandDto)
         {
@@ -30,11 +30,12 @@ namespace Catsa.BusinessLogic.Commands.Proxies
             return validationErrors;
         }
 
-        public override void Add(ProxyCommandDto proxyCommandDto)
+        public override Guid Add(ProxyCommandDto proxyCommandDto)
         {
             var proxy = BuildEntity(proxyCommandDto);
+            proxy.Id = Guid.NewGuid();
             _unitOfWork.Proxy.Add(proxy);
-            _unitOfWork.Save();
+            return proxy.Id;
         }
 
         protected override StringBuilder ValidateUpdate(ProxyCommandDto proxyCommandDto)
@@ -56,7 +57,6 @@ namespace Catsa.BusinessLogic.Commands.Proxies
         {
             var proxy = BuildEntity(proxyCommandDto);
             _unitOfWork.Proxy.Update(proxy);
-            _unitOfWork.Save();
         }
 
         protected override StringBuilder ValidateDelete(ProxyCommandDto proxyCommandDto = null)
@@ -71,19 +71,19 @@ namespace Catsa.BusinessLogic.Commands.Proxies
             return validationErrors;
         }
 
-        public override void Delete(int proxyId)
+        public override void Delete(Guid proxyId)
         {
             var validationErrors = ValidateDelete();
             if (validationErrors.Length == 0)
             {
                 _unitOfWork.Proxy.Delete(proxyId);
-                _unitOfWork.Save();
             }
-            else
-            {
-                throw new CommandValidationException(validationErrors.ToString());
-            }
+            throw new CommandValidationException(validationErrors.ToString());
         }
 
+        public override void Save()
+        {
+            _unitOfWork.Save();
+        }
     }
 }

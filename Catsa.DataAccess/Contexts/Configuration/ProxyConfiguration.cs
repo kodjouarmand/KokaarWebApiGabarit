@@ -13,7 +13,7 @@ namespace Catsa.DataAccess.Contexts.Configuration
             (
                 new Proxy
                 {
-                    Id = 1,
+                    Id = Guid.NewGuid(),
                     Nom = "Bravo",
                     Description = "Proxy de type REST",
                     Type = "REST",
@@ -22,7 +22,7 @@ namespace Catsa.DataAccess.Contexts.Configuration
                 },
                 new Proxy
                 {
-                    Id = 2,
+                    Id = Guid.NewGuid(),
                     Nom = "Alpha",
                     Description = "Proxy de type SOAP",
                     Type = "SOAP",

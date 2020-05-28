@@ -1,13 +1,11 @@
 ﻿using Catsa.Domain.Entities;
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using Catsa.DataAccess.Contexts;
 using Catsa.DataAccess.Repositories.Contracts;
 
 namespace Catsa.DataAccess.Repositories
 {
-    public class ProxyRepository : BaseRepository<Proxy, int>, IProxyRepository
+    public class ProxyRepository : BaseRepository<Proxy, Guid>, IProxyRepository
     {
         public ProxyRepository(CatsaDbContext catsaDbContext) : base(catsaDbContext) 
         { 

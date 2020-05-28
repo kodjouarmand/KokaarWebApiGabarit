@@ -7,9 +7,9 @@ using Catsa.DataAccess.Repositories.Contracts;
 
 namespace Catsa.BusinessLogic.Queries.Proxies
 {
-    public class ProxyQuery : BaseQuery<ProxyQueryDto, Proxy, int>, IProxyQuery
+    public class ProxyQuery : BaseQuery<ProxyQueryDto, Proxy, Guid>, IProxyQuery
     {
-        public ProxyQuery(IUnitOfWork unitOfWork, IMapper mapper) : base(unitOfWork, mapper) { }
+        public ProxyQuery(ICatsaDbUnitOfWork unitOfWork, IMapper mapper) : base(unitOfWork, mapper) { }
 
         public override IEnumerable<ProxyQueryDto> GetAll()
         {
@@ -17,7 +17,7 @@ namespace Catsa.BusinessLogic.Queries.Proxies
             return MapEntitiesToDto(proxies);
         }
 
-        public override ProxyQueryDto GetById(int proxyId)
+        public override ProxyQueryDto GetById(Guid proxyId)
         {
             var proxy = _unitOfWork.Proxy.GetById(proxyId);
             return MapEntityToDto(proxy);

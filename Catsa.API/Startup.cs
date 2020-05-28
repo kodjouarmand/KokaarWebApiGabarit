@@ -1,7 +1,5 @@
 using System.IO;
 using AspNetCoreRateLimit;
-using AutoMapper;
-using Catsa.API.ActionFilters;
 using Catsa.API.Extensions;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -11,7 +9,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using NLog;
 using Catsa.Infrastructure.Logging;
-using Catsa.Infrastructure.Authentication;
+using Catsa.Infrastructure.Configuration;
 
 namespace Catsa.API
 {
@@ -19,7 +17,7 @@ namespace Catsa.API
     {
         public Startup(IConfiguration configuration)
         {
-            LogManager.LoadConfiguration(string.Concat(Directory.GetCurrentDirectory(), "/nlog.config"));
+            LogManager.LoadConfiguration(Constants.LOG_CONFIG_FILE_NAME);
             Configuration = configuration;
         }
 
@@ -31,29 +29,23 @@ namespace Catsa.API
             services.ConfigureCors();
             services.ConfigureIISIntegration();
             services.ConfigureLoggerService();
-            services.ConfigureSqlContext(Configuration);
+            services.ConfigureAuthenticationService();
+            services.ConfigureSqlContext(Configuration, Constants.CATSA_CONNECTION_STRING_NAME);
             services.ConfigureBusinessServices();
-            services.AddAutoMapper(typeof(Startup));
-            services.AddScoped<ValidationFilterAttribute>();
+            services.ConfigureAutoMapper();
+            services.ConfigureActionFilters();
             services.ConfigureVersioning();
             services.ConfigureResponseCaching();
             services.ConfigureHttpCacheHeaders();
             services.AddMemoryCache();
-            services.ConfigureRateLimitingOptions(); services.AddHttpContextAccessor();
+            services.ConfigureRateLimitingOptions(); 
+            services.AddHttpContextAccessor();
             services.AddAuthentication(); 
             services.ConfigureIdentity();
             services.ConfigureJWT(Configuration);
-            services.AddScoped<IAuthenticationService, AuthenticationService>();
+            services.ConfigureAuthenticationService();
             services.ConfigureSwagger();
-
-            services.AddControllers(config =>
-            {
-                config.RespectBrowserAcceptHeader = true;
-                config.ReturnHttpNotAcceptable = true;
-                config.CacheProfiles.Add("120SecondsDuration", new CacheProfile { Duration = 120 });
-            }).AddXmlDataContractSerializerFormatters()
-            .AddCustomCSVFormatter();
-
+            services.ConfigureControllers();
             services.Configure<ApiBehaviorOptions>(options =>
             {
                 options.SuppressModelStateInvalidFilter = true;
@@ -92,9 +84,7 @@ namespace Catsa.API
             app.UseAuthentication();
 
             app.UseAuthorization();
-
-            
-
+           
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();

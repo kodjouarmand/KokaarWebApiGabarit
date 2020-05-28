@@ -9,8 +9,9 @@ namespace Catsa.BusinessLogic.Commands
         DataBaseActionEnum DataBaseAction { get; set; }
         string CurrentUser { get; set; }
 
-        void Add(TBusinessObject businessObject);
+        TEntityKey Add(TBusinessObject businessObject);
         void Update(TBusinessObject businessObject);
-        void Delete(TEntityKey businessObjectId);       
+        void Delete(TEntityKey businessObjectId);
+        void Save();
     }
 }

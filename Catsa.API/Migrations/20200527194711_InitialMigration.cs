@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace Catsa.API.Migrations
 {
-    public partial class Initial_Migration : Migration
+    public partial class InitialMigration : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -52,8 +52,7 @@ namespace Catsa.API.Migrations
                 name: "Proxies",
                 columns: table => new
                 {
-                    Id = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Id = table.Column<Guid>(nullable: false),
                     CreationDate = table.Column<DateTime>(nullable: true),
                     CreationUser = table.Column<string>(nullable: true),
                     LastModificationDate = table.Column<DateTime>(nullable: true),
@@ -178,8 +177,8 @@ namespace Catsa.API.Migrations
                 columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
                 values: new object[,]
                 {
-                    { "3aec26d2-8e7e-4c76-9400-d5640ef8d727", "9ae6bdd0-a019-4842-8084-843f74acc5a2", "Manager", "MANAGER" },
-                    { "10ac71a6-3542-4578-b8a7-a9548040776d", "400fffd9-dd3e-41be-a407-eeae8ac55669", "Administrator", "ADMINISTRATOR" }
+                    { "c6f6ad3e-5936-44fa-91d7-10cc31813473", "e5db2aeb-29c3-47c4-85e1-81bf1fdf90af", "Manager", "MANAGER" },
+                    { "71495967-9768-485f-ad76-18843527056f", "7ca6c4ab-59aa-410b-8a5d-55bc3fa22ebf", "Administrator", "ADMINISTRATOR" }
                 });
 
             migrationBuilder.InsertData(
@@ -187,8 +186,8 @@ namespace Catsa.API.Migrations
                 columns: new[] { "Id", "CreationDate", "CreationUser", "Description", "LastModificationDate", "LastModificationUser", "Nom", "Type" },
                 values: new object[,]
                 {
-                    { 1, new DateTime(2020, 5, 26, 12, 57, 34, 729, DateTimeKind.Local).AddTicks(5344), "application", "Proxy de type REST", null, null, "Bravo", "REST" },
-                    { 2, new DateTime(2020, 5, 26, 12, 57, 34, 729, DateTimeKind.Local).AddTicks(9961), "application", "Proxy de type SOAP", null, null, "Alpha", "SOAP" }
+                    { new Guid("a5b0f18b-7489-4fce-83e3-ab9b60958364"), new DateTime(2020, 5, 27, 15, 47, 10, 473, DateTimeKind.Local).AddTicks(8535), "application", "Proxy de type REST", null, null, "Bravo", "REST" },
+                    { new Guid("b430a53c-0767-4df4-97a8-32035be5908c"), new DateTime(2020, 5, 27, 15, 47, 10, 474, DateTimeKind.Local).AddTicks(1972), "application", "Proxy de type SOAP", null, null, "Alpha", "SOAP" }
                 });
 
             migrationBuilder.CreateIndex(

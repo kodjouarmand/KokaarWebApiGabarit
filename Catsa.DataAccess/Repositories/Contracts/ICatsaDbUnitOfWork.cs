@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace Catsa.DataAccess.Repositories.Contracts
 {
-    public interface IUnitOfWork
+    public interface ICatsaDbUnitOfWork
     {
         IProxyRepository Proxy { get; }
 

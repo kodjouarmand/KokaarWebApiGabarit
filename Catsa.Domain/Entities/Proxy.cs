@@ -5,7 +5,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Catsa.Domain.Entities
 {
-    public class Proxy : BaseEntity<int>
+    public class Proxy : BaseEntity<Guid>
     {
         public string Nom { get; set; }
         public string Description { get; set; }

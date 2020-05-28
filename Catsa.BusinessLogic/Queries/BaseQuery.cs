@@ -12,10 +12,10 @@ namespace Catsa.BusinessLogic.Queries
 {
     public abstract class BaseQuery<TBusinessObject, TEntity, TEntityKey> : IBaseQuery<TBusinessObject, TEntityKey> where TBusinessObject : BaseDto<TEntityKey> where TEntity : BaseEntity<TEntityKey>
     {
-        protected readonly IUnitOfWork _unitOfWork;
+        protected readonly ICatsaDbUnitOfWork _unitOfWork;
         protected readonly IMapper _mapper;
 
-        public BaseQuery(IUnitOfWork unitOfWork, IMapper mapper)
+        public BaseQuery(ICatsaDbUnitOfWork unitOfWork, IMapper mapper)
         {
             _unitOfWork = unitOfWork ?? throw new ArgumentNullException(nameof(unitOfWork));
             _mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));

@@ -13,23 +13,22 @@ namespace Catsa.BusinessLogic.Commands
 {
    public abstract class BaseCommand<TBusinessObject, TEntity, TEntityKey> : IBaseCommand<TBusinessObject, TEntityKey> where TBusinessObject : BaseCommandDto<TEntityKey> where TEntity : BaseEntity<TEntityKey>
     {
-        protected readonly IUnitOfWork _unitOfWork;
+        protected readonly ICatsaDbUnitOfWork _unitOfWork;
         protected readonly IMapper _mapper;
         public DataBaseActionEnum DataBaseAction { get; set; }
         public string CurrentUser { get; set; }
 
-        public BaseCommand(IUnitOfWork unitOfWork, IMapper mapper)
+        public BaseCommand(ICatsaDbUnitOfWork unitOfWork, IMapper mapper)
         {
             _unitOfWork = unitOfWork ?? throw new ArgumentNullException(nameof(unitOfWork));
             _mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
             DataBaseAction = DataBaseActionEnum.Save;
         }
 
-        public abstract void Add(TBusinessObject businessObject);
-
+        public abstract TEntityKey Add(TBusinessObject businessObject);
         public abstract void Update(TBusinessObject businessObject);
-
         public abstract void Delete(TEntityKey businessObjectId);
+        public abstract void Save();
 
         protected TEntity BuildEntity(TBusinessObject businessObject)
         {

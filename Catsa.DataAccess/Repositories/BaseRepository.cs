@@ -22,7 +22,6 @@ namespace Catsa.DataAccess.Repositories.Contracts
         public void Add(TEntity entity)
         {
             dbSet.Add(entity);
-            var id = entity.Id;
         }
 
         public TEntity GetById(TEntityKey id)

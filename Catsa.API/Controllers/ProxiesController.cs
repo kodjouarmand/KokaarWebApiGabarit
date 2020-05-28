@@ -45,9 +45,9 @@ namespace Catsa.API.Controllers
         }
 
         [HttpGet("{proxyId}", Name = "GetProxyById")]
-        [HttpCacheExpiration(CacheLocation = CacheLocation.Public, MaxAge = 0)]
+        [HttpCacheExpiration(CacheLocation = CacheLocation.Public, MaxAge = 60)]
         [HttpCacheValidation(MustRevalidate = false)]
-        public  IActionResult GetById(int proxyId)
+        public  IActionResult GetById(Guid proxyId)
         {
             var proxy =  _proxyQuery.GetById(proxyId);
             if (proxy == null)
@@ -67,8 +67,9 @@ namespace Catsa.API.Controllers
         public  IActionResult Add([FromBody] ProxyCommandDto proxyToAdd)
         {
             _proxyCommand.CurrentUser = "armand";
-            _proxyCommand.Add(proxyToAdd);
-            return CreatedAtRoute("GetProxyById", new { proxyId = proxyToAdd.Id }, proxyToAdd);
+            proxyToAdd.Id = _proxyCommand.Add(proxyToAdd);
+            _proxyCommand.Save();
+            return CreatedAtRoute("GetProxyById", new { proxyId = proxyToAdd.Id }, null);
         }
 
         [HttpPut]
@@ -77,14 +78,16 @@ namespace Catsa.API.Controllers
         {
             _proxyCommand.CurrentUser = "armand";
             _proxyCommand.Update(proxyToUpdate);
-            return CreatedAtRoute("GetProxyById", new { proxyId = proxyToUpdate.Id }, proxyToUpdate);
+            _proxyCommand.Save();
+            return CreatedAtRoute("GetProxyById", new { proxyId = proxyToUpdate.Id }, null);
         }
 
         [HttpDelete("{proxyId}")]
-        public  IActionResult Delete(int proxyId)
+        public  IActionResult Delete(Guid proxyId)
         {
             _proxyCommand.DataBaseAction = DataBaseActionEnum.Delete;
             _proxyCommand.Delete(proxyId);
+            _proxyCommand.Save();
             return NoContent();
         }
     }
