@@ -15,15 +15,38 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using Catsa.Infrastructure.Logging;
-using Catsa.DataAccess.Contexts;
+using Catsa.Domain.Data;
 using Catsa.Infrastructure.Authentication;
 using AutoMapper;
 using Catsa.API.ActionFilters;
+using Catsa.Utility.ConfigSettings;
+using Catsa.BusinessLogic.Queries.Proxies;
+using Catsa.BusinessLogic.Commands.Proxies;
+using Microsoft.EntityFrameworkCore;
 
 namespace Catsa.API.Extensions
 {
     public static class ServiceExtensions
     {
+        public static void ConfigureDbContexts(this IServiceCollection services, IConfiguration configuration)
+        {
+            var configSection = configuration.GetSection("ConnectionStrings");
+            services.AddDbContext<CatsaDbContext>(opts =>
+            opts.UseSqlServer(configSection.GetValue<string>("CatsaConnectionString")));
+        }
+
+        public static void ConfigureBusinessServices(this IServiceCollection services)
+        {
+            services.AddScoped<IProxyQuery, ProxyQuery>();
+            services.AddScoped<IProxyCommand, ProxyCommand>();
+        }
+
+        public static void ConfigureSettings(this IServiceCollection services, IConfiguration configuration)
+        {
+            services.Configure<LoggingSettings>(configuration.GetSection(LoggingSettings.SectionName));
+            services.Configure<DbSettings>(configuration.GetSection(DbSettings.SectionName));
+
+        }
         public static void ConfigureControllers(this IServiceCollection services) =>
             services.AddControllers(config =>
             {
@@ -45,8 +68,10 @@ namespace Catsa.API.Extensions
         public static void ConfigureIISIntegration(this IServiceCollection services) =>
             services.Configure<IISOptions>(options => { });
 
-        public static void ConfigureLoggerService(this IServiceCollection services) =>
+        public static void ConfigureLoggerService(this IServiceCollection services)
+        {
             services.AddScoped<ILoggerService, LoggerService>();
+        }
 
         public static void ConfigureAuthenticationService(this IServiceCollection services) =>
             services.AddScoped<IAuthenticationService, AuthenticationService>();
@@ -57,18 +82,6 @@ namespace Catsa.API.Extensions
         public static void ConfigureActionFilters(this IServiceCollection services) =>
             services.AddScoped<ValidationFilterAttribute>();
 
-        //public static void ConfigureSqlContext(this IServiceCollection services, IConfiguration configuration) =>
-        //    services.AddDbContext<CatsaDbContext>(opts =>
-        //    opts.UseSqlServer(configuration.GetConnectionString("CatsaSqlConnection"), b =>
-        //        b.MigrationsAssembly("Catsa.API")));
-
-        //public static void ConfigureBusinessServices(this IServiceCollection services)
-        //{
-        //    services.AddScoped<ICatsaDbUnitOfWork, CatsaDbUnitOfWork>();
-        //    services.AddScoped<IProxyQuery, ProxyQuery>();
-        //    services.AddScoped<IProxyCommand, ProxyCommand>();
-        //}
-
         public static IMvcBuilder AddCustomCSVFormatter(this IMvcBuilder builder) =>
             builder.AddMvcOptions(config => config.OutputFormatters.Add(new CsvOutputFormatter()));
 
@@ -76,6 +89,7 @@ namespace Catsa.API.Extensions
         {
             services.AddApiVersioning(opt =>
             {
+            
                 opt.ReportApiVersions = true;
                 opt.AssumeDefaultVersionWhenUnspecified = true;
                 opt.DefaultApiVersion = new ApiVersion(1, 0);
@@ -165,14 +179,14 @@ namespace Catsa.API.Extensions
             {
                 s.SwaggerDoc("v1", new OpenApiInfo
                 {
-                    Title = "CATSA API",
+                    Title = "Catsa API",
                     Version = "v1",
                     Description = "Catsa.API",
                     TermsOfService = new Uri("https://example.com/terms"),
                     Contact = new OpenApiContact
                     {
-                        Name = "John Doe",
-                        Email = "John.Doe@gmail.com",
+                        Name = "Armand K",
+                        Email = "armand@gmail.com",
                         Url = new Uri("https://twitter.com/johndoe"),
                     },
                     License = new OpenApiLicense
@@ -183,7 +197,7 @@ namespace Catsa.API.Extensions
                 });
                 s.SwaggerDoc("v2", new OpenApiInfo
                 {
-                    Title = "Kokaar API",
+                    Title = "Catsa API",
                     Version = "v2"
                 });
                 s.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme

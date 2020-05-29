@@ -35,7 +35,7 @@ namespace Catsa.API.Controllers
             if (proxies == null || proxies.Count() == 0)
             {
                 var message = $"Aucun enregistrement trouvé.";
-                _logger.LogInfo(message);
+                _logger.LogInformation(message);
                 return NotFound(message);
             }
             else
@@ -53,7 +53,7 @@ namespace Catsa.API.Controllers
             if (proxy == null)
             {
                 var message = $"Le proxy dont l'id est << {proxyId} >> n'existe pas.";
-                _logger.LogInfo(message);
+                _logger.LogInformation(message);
                 return NotFound(message);
             }
             else

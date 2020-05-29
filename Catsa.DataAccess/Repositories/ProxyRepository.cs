@@ -1,6 +1,6 @@
 ﻿using Catsa.Domain.Entities;
 using System;
-using Catsa.DataAccess.Contexts;
+using Catsa.Domain.Data;
 using Catsa.DataAccess.Repositories.Contracts;
 
 namespace Catsa.DataAccess.Repositories

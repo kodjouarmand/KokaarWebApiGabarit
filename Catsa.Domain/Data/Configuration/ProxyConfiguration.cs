@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using System;
 
-namespace Catsa.DataAccess.Contexts.Configuration
+namespace Catsa.Domain.Data.Configuration
 {
     public class ProxyConfiguration : IEntityTypeConfiguration<Proxy>
     {

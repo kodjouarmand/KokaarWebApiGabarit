@@ -1,4 +1,4 @@
-﻿using Catsa.DataAccess.Contexts;
+﻿using Catsa.Domain.Data;
 using Catsa.Domain.Entities;
 using Microsoft.EntityFrameworkCore;
 using System;

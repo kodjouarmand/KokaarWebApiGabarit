@@ -77,6 +77,7 @@ namespace Catsa.BusinessLogic.Commands.Proxies
             if (validationErrors.Length == 0)
             {
                 _unitOfWork.Proxy.Delete(proxyId);
+                return;
             }
             throw new CommandValidationException(validationErrors.ToString());
         }

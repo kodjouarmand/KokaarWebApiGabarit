@@ -1,4 +1,4 @@
-﻿using Catsa.DataAccess.Contexts;
+﻿using Catsa.Domain.Data;
 using Catsa.DataAccess.Repositories.Contracts;
 using System;
 

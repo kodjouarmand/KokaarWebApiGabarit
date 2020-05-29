@@ -9,7 +9,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using NLog;
 using Catsa.Infrastructure.Logging;
-using Catsa.Infrastructure.Configuration;
+using Catsa.Infrastructure.Database;
 
 namespace Catsa.API
 {
@@ -17,7 +17,6 @@ namespace Catsa.API
     {
         public Startup(IConfiguration configuration)
         {
-            LogManager.LoadConfiguration(Constants.LOG_CONFIG_FILE_NAME);
             Configuration = configuration;
         }
 
@@ -26,12 +25,14 @@ namespace Catsa.API
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.ConfigureCors();
-            services.ConfigureIISIntegration();
+            services.ConfigureSettings(Configuration);
             services.ConfigureLoggerService();
+            services.ConfigureDbContexts(Configuration);
             services.ConfigureAuthenticationService();
-            services.ConfigureSqlContext(Configuration, Constants.CATSA_CONNECTION_STRING_NAME);
             services.ConfigureBusinessServices();
+            services.ConfigureCors();
+            services.ConfigureIISIntegration();                        
+            services.ConfigureUnitOfWork();            
             services.ConfigureAutoMapper();
             services.ConfigureActionFilters();
             services.ConfigureVersioning();

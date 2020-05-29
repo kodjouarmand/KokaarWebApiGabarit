@@ -1,9 +1,9 @@
 ﻿using Catsa.Domain.Entities;
-using Catsa.DataAccess.Contexts.Configuration;
+using Catsa.Domain.Data.Configuration;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
-namespace Catsa.DataAccess.Contexts
+namespace Catsa.Domain.Data
 {
     public class CatsaDbContext : IdentityDbContext<ApplicationUser>
     {

@@ -15,6 +15,7 @@
     <ProjectReference Include="..\Catsa.BusinessLogic\Catsa.BusinessLogic.csproj" />
     <ProjectReference Include="..\Catsa.DataAccess\Catsa.DataAccess.csproj" />
     <ProjectReference Include="..\Catsa.Domain\Catsa.Domain.csproj" />
+    <ProjectReference Include="..\Catsa.Utility\Catsa.Utility.csproj" />
   </ItemGroup>
 
 </Project>

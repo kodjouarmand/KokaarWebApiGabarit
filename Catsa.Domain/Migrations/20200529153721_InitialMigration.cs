@@ -1,7 +1,7 @@
 ﻿using System;
 using Microsoft.EntityFrameworkCore.Migrations;
 
-namespace Catsa.API.Migrations
+namespace Catsa.Domain.Migrations
 {
     public partial class InitialMigration : Migration
     {
@@ -177,8 +177,8 @@ namespace Catsa.API.Migrations
                 columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
                 values: new object[,]
                 {
-                    { "c6f6ad3e-5936-44fa-91d7-10cc31813473", "e5db2aeb-29c3-47c4-85e1-81bf1fdf90af", "Manager", "MANAGER" },
-                    { "71495967-9768-485f-ad76-18843527056f", "7ca6c4ab-59aa-410b-8a5d-55bc3fa22ebf", "Administrator", "ADMINISTRATOR" }
+                    { "6740c02b-2675-4048-8799-c1e1475d233b", "cf0e565f-3a59-40d9-b827-89002cc3f6f8", "Manager", "MANAGER" },
+                    { "d07fc05e-c116-4ab9-80aa-f08509c157f9", "10fef2b5-0dfa-4c97-92d5-ab6b75002568", "Administrator", "ADMINISTRATOR" }
                 });
 
             migrationBuilder.InsertData(
@@ -186,8 +186,8 @@ namespace Catsa.API.Migrations
                 columns: new[] { "Id", "CreationDate", "CreationUser", "Description", "LastModificationDate", "LastModificationUser", "Nom", "Type" },
                 values: new object[,]
                 {
-                    { new Guid("a5b0f18b-7489-4fce-83e3-ab9b60958364"), new DateTime(2020, 5, 27, 15, 47, 10, 473, DateTimeKind.Local).AddTicks(8535), "application", "Proxy de type REST", null, null, "Bravo", "REST" },
-                    { new Guid("b430a53c-0767-4df4-97a8-32035be5908c"), new DateTime(2020, 5, 27, 15, 47, 10, 474, DateTimeKind.Local).AddTicks(1972), "application", "Proxy de type SOAP", null, null, "Alpha", "SOAP" }
+                    { new Guid("f4f3e781-e38e-4e2e-8e95-ab61a16a0d02"), new DateTime(2020, 5, 29, 11, 37, 20, 42, DateTimeKind.Local).AddTicks(3407), "application", "Proxy de type REST", null, null, "Bravo", "REST" },
+                    { new Guid("9ebfbf0b-92cb-413e-9db1-ef4c51699ff3"), new DateTime(2020, 5, 29, 11, 37, 20, 53, DateTimeKind.Local).AddTicks(4606), "application", "Proxy de type SOAP", null, null, "Alpha", "SOAP" }
                 });
 
             migrationBuilder.CreateIndex(

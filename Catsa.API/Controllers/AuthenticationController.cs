@@ -51,7 +51,7 @@ namespace Catsa.API.Controllers
         {
             if (!await _authManager.ValidateUser(user))
             {
-                _logger.LogWarn($"{nameof(Authenticate)}: Authentication failed. Wrong user name or password.");
+                _logger.LogWarning($"{nameof(Authenticate)}: Authentication failed. Wrong user name or password.");
                 return Unauthorized();
             }
             return Ok(new { Token = await _authManager.CreateToken() });
